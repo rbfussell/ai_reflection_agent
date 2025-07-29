@@ -255,9 +255,7 @@ experiment_data["analysis"] = {
 
 # === LOG COMPLETE EXPERIMENT AS UNIFIED ENTRY ===
 complete_experiment_text = "\n\n".join([
-    f"=== LEVEL {level['level']}: {level['type'].upper()} ===",
-    f"THINKING: {level['thinking']}",
-    f"RESPONSE: {level['response']}"
+    f"=== LEVEL {level['level']}: {level['type'].upper()} ===\nTHINKING: {level['thinking']}\nRESPONSE: {level['response']}"
     for level in experiment_data["levels"]
 ])
 
@@ -266,7 +264,7 @@ unified_experiment_id = logger.log_response(
     response=complete_experiment_text,
     model_name="qwen3",
     thinking_process=f"UNIFIED THINKING ACROSS {len(experiment_data['levels'])} LEVELS:\n\n" + 
-                   "\n\n".join([f"Level {level['level']}: {level['thinking']}" for level in experiment_data["levels"]]),
+                   "\n\n".join(f"Level {level['level']}: {level['thinking']}" for level in experiment_data["levels"]),
     metadata={
         "experiment_id": experiment_data['experiment_id'],
         "experiment_type": "unified_consciousness_exploration",
