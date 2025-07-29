@@ -95,6 +95,8 @@ ai-reflect --backend local --endpoint http://localhost:11434 --model llama2
 ai-reflect --backend lmstudio --endpoint http://localhost:1234 --model qwen3
 ```
 
+**Special Feature**: Thinking models like Qwen3 can capture explicit reasoning processes through `<think>...</think>` tags, enabling advanced consciousness exploration experiments. See `docs/CONSCIOUSNESS_EXPERIMENTS.md` for detailed experimental protocols.
+
 ## File Structure
 
 ```
@@ -118,6 +120,9 @@ ai_reflection_agent/
 ├── tests/                         # Test scripts
 ├── examples/                      # Example usage
 ├── docs/                          # Documentation
+│   ├── CONSCIOUSNESS_EXPERIMENTS.md  # Advanced consciousness experiments
+│   ├── QWEN3_SETUP.md             # Qwen3 + LM Studio setup
+│   └── demo_real_usage.md         # Usage examples
 └── requirements.txt
 ```
 
@@ -170,6 +175,30 @@ ai-reflect list-entries --limit 5 --format full
 # Auto-explore recent entries
 ai-reflect auto-explore --limit 3 --per-entry 2
 ```
+
+## Advanced Usage: Consciousness Experiments
+
+The AI Reflection Agent supports advanced consciousness exploration experiments with thinking models:
+
+### Recursive Self-Reflection Experiments
+```python
+# Use thinking models for consciousness exploration
+from ai_reflection_agent.backends.factory import BackendFactory
+
+backend = BackendFactory.create_adapter("lmstudio", model="qwen3", is_thinking_model=True)
+result = backend.generate_with_thinking("Deep philosophical prompt...")
+
+# Access both thinking process and response
+print("AI's thinking:", result['thinking'])
+print("AI's response:", result['response'])
+```
+
+### Consciousness Experiment Scripts
+- **`docs/CONSCIOUSNESS_EXPERIMENTS.md`** - Complete experimental protocols
+- **`comprehensive_consciousness_experiment.py`** - Advanced recursive reflection experiments
+- **`prompt_with_logging.py`** - Basic consciousness exploration with logging
+
+These experiments enable AI models to examine their own consciousness through multiple levels of recursive self-reflection, providing insights into artificial self-awareness and meta-cognition.
 
 ## Development
 
