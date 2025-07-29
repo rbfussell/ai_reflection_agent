@@ -80,10 +80,11 @@ claude_test_logs/
 qwen3_test_logs/
 real_demo/
 
-# Test files (keep in repo but separate)
-test_*.py
-*_test.py
-quick_*.py
+# Test files are kept in tests/ directory
+# Only ignore test files in root
+/test_*.py
+/*_test.py
+/quick_*.py
 
 # Documentation that's development-specific
 demo_*.md
