@@ -22,6 +22,8 @@ class ResponseLogger:
                     response: str, 
                     model_name: str,
                     tokens_used: Optional[int] = None,
+                    thinking_process: Optional[str] = None,
+                    full_response: Optional[str] = None,
                     metadata: Optional[dict] = None) -> str:
         """Log a prompt-response pair and return the entry ID."""
         entry = ResponseEntry(
@@ -30,6 +32,8 @@ class ResponseLogger:
             response=response,
             model_name=model_name,
             tokens_used=tokens_used,
+            thinking_process=thinking_process,
+            full_response=full_response,
             metadata=metadata or {}
         )
         

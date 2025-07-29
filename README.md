@@ -90,27 +90,34 @@ ai-reflect --backend openai --api-key your-key --model gpt-4
 ai-reflect --backend local --endpoint http://localhost:11434 --model llama2
 ```
 
+### LM Studio (Thinking Models)
+```bash
+ai-reflect --backend lmstudio --endpoint http://localhost:1234 --model qwen3
+```
+
 ## File Structure
 
 ```
 ai_reflection_agent/
-├── ai_reflection_agent/
-│   ├── core/
-│   │   ├── models.py      # Data models
-│   │   ├── logger.py      # JSONL logging
-│   │   ├── scorer.py      # Self-scoring system
-│   │   ├── reviewer.py    # Review mode
-│   │   └── explorer.py    # Exploration mode
-│   ├── backends/
-│   │   ├── base.py        # Abstract backend
-│   │   ├── claude.py      # Claude adapter
-│   │   ├── openai_backend.py # OpenAI adapter
-│   │   ├── local.py       # Local model adapter
-│   │   └── factory.py     # Backend factory
-│   └── cli.py             # CLI interface
-├── logs/
-│   ├── responses.jsonl    # Response logs
-│   └── explorations.jsonl # Exploration logs
+├── ai_reflection_agent/           # Main package
+│   ├── core/                      # Core functionality
+│   │   ├── models.py              # Data models
+│   │   ├── logger.py              # JSONL logging
+│   │   ├── scorer.py              # Self-scoring system
+│   │   ├── reviewer.py            # Review mode
+│   │   └── explorer.py            # Exploration mode
+│   ├── backends/                  # AI model adapters
+│   │   ├── base.py                # Abstract backend
+│   │   ├── claude.py              # Claude adapter
+│   │   ├── openai_backend.py      # OpenAI adapter
+│   │   ├── local.py               # Local model adapter
+│   │   ├── lmstudio.py            # LM Studio adapter
+│   │   ├── mock.py                # Mock adapter for testing
+│   │   └── factory.py             # Backend factory
+│   └── cli.py                     # CLI interface
+├── tests/                         # Test scripts
+├── examples/                      # Example usage
+├── docs/                          # Documentation
 └── requirements.txt
 ```
 

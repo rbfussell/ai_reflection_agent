@@ -54,7 +54,7 @@ class ReflectionAgent:
 
 @click.group()
 @click.option('--log-dir', default='logs', help='Directory for log files')
-@click.option('--backend', default='claude', help='AI backend to use (claude, openai, local)')
+@click.option('--backend', default='claude', help='AI backend to use (claude, openai, local, lmstudio, mock)')
 @click.option('--api-key', help='API key for the backend')
 @click.option('--model', help='Model name to use')
 @click.option('--endpoint', help='Endpoint URL for local backends')
@@ -127,6 +127,42 @@ def list_entries(ctx, limit, output_format):
 
 @cli.command()
 @click.argument('entry_id', required=True)
+@click.option('--show-thinking', is_flag=True, help='Show thinking process if available')
+@click.pass_context
+def show(ctx, entry_id, show_thinking):
+    """Show detailed information about a specific entry."""
+    agent = ctx.obj['agent']
+    entry = agent.response_logger.get_entry(entry_id)
+    
+    if not entry:
+        click.echo("Entry not found.", err=True)
+        return
+    
+    click.echo(f"Entry ID: {entry.id}")
+    click.echo(f"Timestamp: {entry.timestamp}")
+    click.echo(f"Model: {entry.model_name}")
+    click.echo(f"Tokens: {entry.tokens_used or 'N/A'}")
+    
+    click.echo(f"\nPrompt:\n{entry.prompt}")
+    
+    if entry.thinking_process and show_thinking:
+        click.echo(f"\nThinking Process:\n{entry.thinking_process}")
+    
+    click.echo(f"\nResponse:\n{entry.response}")
+    
+    if entry.score:
+        scores = agent.scorer.get_score_summary(entry.score)
+        click.echo(f"\nScores: {scores}")
+    
+    if entry.reflection:
+        click.echo(f"\nReflection:\n{entry.reflection}")
+    
+    if entry.revision:
+        click.echo(f"\nRevision:\n{entry.revision}")
+
+
+@cli.command()
+@click.argument('entry_id', required=True)
 @click.pass_context
 def review(ctx, entry_id):
     """Review an entry (score, reflect, and optionally revise)."""
@@ -149,12 +185,12 @@ def review(ctx, entry_id):
         for step in result["steps"]:
             step_name = step.get("step", "unknown")
             if step.get("success"):
-                click.echo(f"✓ {step_name.title()} completed")
+                click.echo(f"[SUCCESS] {step_name.title()} completed")
                 if step_name == "scoring" and "score" in step:
                     scores = agent.scorer.get_score_summary(step["score"])
                     click.echo(f"  Scores: {scores}")
             else:
-                click.echo(f"✗ {step_name.title()} failed: {step.get('error', 'Unknown error')}")
+                click.echo(f"[FAILED] {step_name.title()} failed: {step.get('error', 'Unknown error')}")
     
     except Exception as e:
         click.echo(f"Error during review: {e}", err=True)
@@ -180,10 +216,10 @@ def explore(ctx, entry_id, exploration_type):
         result = agent.explorer.generate_exploration_prompt(entry_id, exploration_type, agent.backend)
         
         if result.get("success"):
-            click.echo(f"✓ Exploration generated (ID: {result['exploration_id']})")
+            click.echo(f"[SUCCESS] Exploration generated (ID: {result['exploration_id']})")
             click.echo(f"\nGenerated prompt:\n{result['generated_prompt']}")
         else:
-            click.echo(f"✗ Failed to generate exploration: {result.get('error', 'Unknown error')}", err=True)
+            click.echo(f"[FAILED] Failed to generate exploration: {result.get('error', 'Unknown error')}", err=True)
     
     except Exception as e:
         click.echo(f"Error during exploration: {e}", err=True)
@@ -258,12 +294,12 @@ def test_backend(ctx):
     result = agent.backend.test_connection()
     
     if result.get("success"):
-        click.echo("✓ Backend connection successful")
+        click.echo("[SUCCESS] Backend connection successful")
         for key, value in result.items():
             if key != "success":
                 click.echo(f"  {key}: {value}")
     else:
-        click.echo(f"✗ Backend connection failed: {result.get('error', 'Unknown error')}", err=True)
+        click.echo(f"[FAILED] Backend connection failed: {result.get('error', 'Unknown error')}", err=True)
 
 
 @cli.command()

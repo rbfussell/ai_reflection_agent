@@ -11,6 +11,7 @@ setup(
         "openai>=1.0.0",
         "aiohttp>=3.8.0",
         "python-dateutil>=2.8.0",
+        "requests>=2.28.0",
     ],
     entry_points={
         "console_scripts": [

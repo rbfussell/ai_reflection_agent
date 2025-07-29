@@ -5,6 +5,8 @@ from .base import BackendAdapter
 from .claude import ClaudeAdapter
 from .openai_backend import OpenAIAdapter
 from .local import LocalAdapter
+from .mock import MockAdapter
+from .lmstudio import LMStudioAdapter
 
 
 class BackendFactory:
@@ -14,6 +16,8 @@ class BackendFactory:
         "claude": ClaudeAdapter,
         "openai": OpenAIAdapter,
         "local": LocalAdapter,
+        "mock": MockAdapter,
+        "lmstudio": LMStudioAdapter,
     }
     
     @classmethod

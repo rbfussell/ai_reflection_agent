@@ -15,6 +15,8 @@ class Score(BaseModel):
 
 class ResponseEntry(BaseModel):
     """A single prompt-response pair with metadata."""
+    model_config = {"protected_namespaces": ()}
+    
     id: str = Field(description="Unique identifier for this entry")
     timestamp: datetime = Field(default_factory=datetime.now)
     prompt: str = Field(description="The input prompt")
@@ -24,6 +26,8 @@ class ResponseEntry(BaseModel):
     score: Optional[Score] = Field(None, description="Self-evaluation scores")
     reflection: Optional[str] = Field(None, description="AI's reflection on its own response")
     revision: Optional[str] = Field(None, description="Revised response if any")
+    thinking_process: Optional[str] = Field(None, description="AI's thinking process (for thinking models)")
+    full_response: Optional[str] = Field(None, description="Full response including thinking tags")
     metadata: Dict[str, Any] = Field(default_factory=dict, description="Additional metadata")
 
 
