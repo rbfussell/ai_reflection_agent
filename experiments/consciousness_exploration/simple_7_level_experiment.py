@@ -1,3 +1,25 @@
+"""
+Simple 7-Level Consciousness Exploration Experiment
+
+This is the original working implementation that successfully completed all 7 levels
+of consciousness exploration. It demonstrates the basic pattern for recursive 
+AI self-reflection without the additional debugging features.
+
+This script was used to generate the successful experimental data found in the
+experiments/data/ directory, showing thinking evolution from 1,830 to 3,727 
+characters at peak complexity (Level 3).
+
+Features:
+- Simple, clean implementation
+- 7 levels of recursive reflection
+- Successful completion verified with real data
+- Serves as baseline reference implementation
+
+Author: AI Reflection Agent Project
+Version: 1.0.0
+License: Same as main project
+"""
+
 from ai_reflection_agent.backends.factory import BackendFactory
 from ai_reflection_agent.core.logger import ResponseLogger
 from colored_print import log

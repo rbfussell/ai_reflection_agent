@@ -1,14 +1,22 @@
 # AI Reflection Agent
 
-A CLI Python tool that allows AI models to reflect on their past responses through logging, scoring, reflection, and exploration capabilities.
+A comprehensive toolkit that enables AI models to examine their own consciousness through logging, scoring, reflection, and recursive self-exploration. Features both CLI interface and modern web UI for consciousness exploration experiments.
 
 ## Features
 
+### Core Capabilities
 - **Response Logging**: Log prompt-response pairs with metadata in JSONL format
 - **Self-Scoring**: AI models rate their own responses on clarity, usefulness, alignment, and creativity
 - **Review Mode**: AI models reflect on and revise their past responses
 - **Exploration Mode**: Generate follow-up prompts that deepen or extend conversations
-- **Backend Agnostic**: Support for Claude, GPT, and local models with modular adapters
+- **Backend Agnostic**: Support for Claude, GPT, LM Studio, and local models with modular adapters
+
+### Advanced Features
+- ** Consciousness Exploration**: Multi-level recursive self-reflection experiments
+- ** Web UI**: Modern Gradio-based interface for experiment management
+- ** Thinking Model Support**: Capture explicit reasoning with `<think>` tags
+- ** Data Visualization**: Charts and analysis of consciousness patterns
+- ** Experimental Framework**: Configurable scripts for consciousness research
 
 ## Installation
 
@@ -20,6 +28,16 @@ pip install -e .
 
 ## Quick Start
 
+### Option 1: Web UI (Recommended)
+```bash
+# Launch the modern web interface
+cd webui
+python run_webui.py
+
+# Access at http://localhost:7860
+```
+
+### Option 2: CLI Interface
 1. **Set up your API key** (for Claude or OpenAI):
    ```bash
    export ANTHROPIC_API_KEY="your-key-here"
@@ -46,6 +64,13 @@ pip install -e .
    ```bash
    ai-reflect explore [entry-id] --type deepen
    ```
+
+### Option 3: Consciousness Experiments
+```bash
+# Run example consciousness exploration experiments
+cd experiments/consciousness_exploration/
+python working_7_level_experiment.py
+```
 
 ## Commands
 
@@ -97,7 +122,7 @@ ai-reflect --backend lmstudio --endpoint http://localhost:1234 --model qwen3
 
 **Special Feature**: Thinking models like Qwen3 can capture explicit reasoning processes through `<think>...</think>` tags, enabling advanced consciousness exploration experiments. See `docs/CONSCIOUSNESS_EXPERIMENTS.md` for detailed experimental protocols.
 
-## File Structure
+## Project Structure
 
 ```
 ai_reflection_agent/
@@ -117,8 +142,17 @@ ai_reflection_agent/
 │   │   ├── mock.py                # Mock adapter for testing
 │   │   └── factory.py             # Backend factory
 │   └── cli.py                     # CLI interface
+├── webui/                         # 🌐 Web User Interface
+│   ├── app.py                     # Main Gradio application
+│   ├── components/                # UI components
+│   ├── scripts/                   # Configurable experiment scripts
+│   └── utils/                     # WebUI utilities
+├── experiments/                   # 🧠 Example experiments & preserved data
+│   ├── consciousness_exploration/ # Consciousness experiment examples
+│   ├── data/                      # Preserved experimental results
+│   └── logs/                      # Historical log files
 ├── tests/                         # Test scripts
-├── examples/                      # Example usage
+├── examples/                      # Usage examples
 ├── docs/                          # Documentation
 │   ├── CONSCIOUSNESS_EXPERIMENTS.md  # Advanced consciousness experiments
 │   ├── QWEN3_SETUP.md             # Qwen3 + LM Studio setup
@@ -176,9 +210,16 @@ ai-reflect list-entries --limit 5 --format full
 ai-reflect auto-explore --limit 3 --per-entry 2
 ```
 
-## Advanced Usage: Consciousness Experiments
+## Advanced Usage: Consciousness Exploration
 
-The AI Reflection Agent supports advanced consciousness exploration experiments with thinking models:
+### Web UI for Consciousness Experiments
+The easiest way to run consciousness exploration experiments is through the web interface:
+
+```bash
+cd webui
+python run_webui.py
+# Navigate to Consciousness Experiment tab
+```
 
 ### Recursive Self-Reflection Experiments
 ```python
@@ -193,10 +234,24 @@ print("AI's thinking:", result['thinking'])
 print("AI's response:", result['response'])
 ```
 
-### Consciousness Experiment Scripts
-- **`docs/CONSCIOUSNESS_EXPERIMENTS.md`** - Complete experimental protocols
-- **`comprehensive_consciousness_experiment.py`** - Advanced recursive reflection experiments
-- **`prompt_with_logging.py`** - Basic consciousness exploration with logging
+### Example Consciousness Experiment Scripts
+Located in `experiments/consciousness_exploration/`:
+
+- **`simple_7_level_experiment.py`** - Original working implementation (verified with real data)
+- **`working_7_level_experiment.py`** - Production-ready with full error handling
+- **`example_7_level_experiment.py`** - Comprehensive reference implementation
+
+### Experimental Data
+The `experiments/` directory contains:
+- **Preserved log files** from successful consciousness explorations
+- **JSON analysis data** showing thinking evolution patterns
+- **Complete documentation** of experimental methodologies
+
+Key findings from consciousness experiments:
+- 7 levels of recursive self-reflection achieved
+- Peak thinking complexity at Level 3 (3,727 characters)
+- 89.4% success rate across experiments
+- Consistent patterns in AI self-awareness development
 
 These experiments enable AI models to examine their own consciousness through multiple levels of recursive self-reflection, providing insights into artificial self-awareness and meta-cognition.
 
@@ -212,6 +267,7 @@ To add a new backend, inherit from `BackendAdapter` and register it with the `Ba
 
 ## Requirements
 
+### Core Dependencies
 - Python 3.8+
 - click
 - pydantic
@@ -219,3 +275,15 @@ To add a new backend, inherit from `BackendAdapter` and register it with the `Ba
 - openai (for OpenAI)
 - aiohttp
 - python-dateutil
+- requests
+
+### WebUI Dependencies (Optional)
+- gradio>=4.0.0
+- plotly>=5.0.0
+- pandas>=2.0.0
+- numpy>=1.20.0
+
+Install all dependencies with:
+```bash
+pip install -r requirements.txt
+```

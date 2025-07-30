@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ai-reflect:*)",
+      "Bash(mkdir:*)"
+    ],
+    "additionalDirectories": [
+      "D:\\AI\\project"
+    ]
+  }
+}
