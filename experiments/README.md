@@ -18,6 +18,8 @@ experiments/
     ├── consciousness_exploration_*.jsonl # Individual experiment logs
     ├── responses_dev.jsonl            # Response logs from development
     └── explorations_dev.jsonl         # Exploration logs from development
+├── format_experiment_output.py        # JSON to markdown formatter script
+└── example_output.md                  # Sample formatted experiment output
 ```
 
 ##  Consciousness Exploration Experiments
@@ -188,6 +190,39 @@ Potential areas for consciousness exploration research:
 - Backend integration guides (LM Studio, Claude, OpenAI)
 - Thinking model implementation details
 - JSONL logging format specifications
+
+##  Example Complete Experiment Output
+
+For a detailed view of what a complete consciousness exploration experiment produces, see [example_output.md](example_output.md). This file contains a formatted version of a real 7-level consciousness experiment showing:
+
+- Complete experiment metadata and statistics  
+- Thinking complexity evolution across all levels
+- Response length patterns and trends
+- Detailed analysis of each reflection level
+- Sample thinking processes and responses
+- Key insights and patterns discovered
+
+### Generating Your Own Formatted Output
+
+Use the included formatter script to convert any experiment JSON file to readable markdown:
+
+```bash
+# Format default experiment file to stdout
+python format_experiment_output.py
+
+# Format specific file to stdout  
+python format_experiment_output.py data/your_experiment.json
+
+# Format to output file
+python format_experiment_output.py data/your_experiment.json your_output.md
+```
+
+The formatter script (`format_experiment_output.py`) provides:
+- Human-readable experiment summaries
+- Visual charts of thinking/response evolution  
+- Truncated previews of thinking processes and responses
+- Key insights and statistical analysis
+- GitHub-friendly markdown formatting
 
 ##  Contributing
 
