@@ -207,22 +207,31 @@ For a detailed view of what a complete consciousness exploration experiment prod
 Use the included formatter script to convert any experiment JSON file to readable markdown:
 
 ```bash
-# Format default experiment file to stdout
+# Format default experiment file to stdout (summary mode)
 python format_experiment_output.py
+
+# Format with complete thinking processes and responses
+python format_experiment_output.py --complete
 
 # Format specific file to stdout  
 python format_experiment_output.py data/your_experiment.json
 
-# Format to output file
+# Format specific file with complete content
+python format_experiment_output.py --complete data/your_experiment.json
+
+# Format to output file (summary mode)
 python format_experiment_output.py data/your_experiment.json your_output.md
+
+# Format to output file with complete content
+python format_experiment_output.py --complete data/your_experiment.json complete_output.md
 ```
 
 The formatter script (`format_experiment_output.py`) provides:
-- Human-readable experiment summaries
+- **Summary Mode** (default): Human-readable experiment summaries with truncated content previews
+- **Complete Mode** (`--complete`): Full thinking processes and responses for detailed analysis
 - Visual charts of thinking/response evolution  
-- Truncated previews of thinking processes and responses
 - Key insights and statistical analysis
-- GitHub-friendly markdown formatting
+- GitHub-friendly markdown formatting with proper text wrapping
 
 ##  Contributing
 

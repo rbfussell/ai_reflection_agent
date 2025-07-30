@@ -6,7 +6,11 @@ This script converts consciousness experiment JSON files into human-readable
 markdown format suitable for README files and documentation.
 
 Usage:
-    python format_experiment_output.py [json_file] [output_file]
+    python format_experiment_output.py [--complete] [json_file] [output_file]
+    
+Options:
+    --complete    Generate complete analysis with full thinking processes and responses
+                 (default mode shows truncated previews for readability)
     
 If no arguments provided, processes the default experiment file.
 """
@@ -16,7 +20,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-def format_experiment_to_markdown(json_file_path, output_file_path=None):
+def format_experiment_to_markdown(json_file_path, output_file_path=None, complete=False):
     """Convert consciousness experiment JSON to markdown format."""
     
     try:
@@ -30,7 +34,8 @@ def format_experiment_to_markdown(json_file_path, output_file_path=None):
     markdown = []
     
     # Header
-    markdown.append("# Consciousness Experiment Results")
+    title_suffix = " (Complete Analysis)" if complete else " (Summary)"
+    markdown.append(f"# Consciousness Experiment Results{title_suffix}")
     markdown.append("")
     markdown.append("## Experiment Overview")
     markdown.append("")
@@ -61,8 +66,8 @@ def format_experiment_to_markdown(json_file_path, output_file_path=None):
     markdown.append("```")
     for i, length in enumerate(analysis['thinking_evolution']):
         bar_length = int(length / 100)  # Scale for display
-        bar = "█" * bar_length
-        markdown.append(f"Level {i}: {length:4d} chars │{bar}")
+        bar = "#" * bar_length
+        markdown.append(f"Level {i}: {length:4d} chars |{bar}")
     markdown.append("```")
     markdown.append("")
     
@@ -72,8 +77,8 @@ def format_experiment_to_markdown(json_file_path, output_file_path=None):
     markdown.append("```")
     for i, length in enumerate(analysis['response_evolution']):
         bar_length = int(length / 100)  # Scale for display
-        bar = "█" * bar_length
-        markdown.append(f"Level {i}: {length:4d} chars │{bar}")
+        bar = "#" * bar_length
+        markdown.append(f"Level {i}: {length:4d} chars |{bar}")
     markdown.append("```")
     markdown.append("")
     
@@ -101,30 +106,50 @@ def format_experiment_to_markdown(json_file_path, output_file_path=None):
         markdown.append(f"- Timestamp: {level_data['timestamp']}")
         markdown.append("")
         
-        # Show first 300 characters of thinking process
+        # Show thinking process - full text if complete mode, preview if summary
         thinking = level_data['thinking']
-        if len(thinking) > 300:
-            thinking_preview = thinking[:297] + "..."
+        if complete:
+            thinking_content = thinking
+            thinking_title = "**Complete Thinking Process:**"
         else:
-            thinking_preview = thinking
+            if len(thinking) > 300:
+                thinking_content = thinking[:297] + "..."
+            else:
+                thinking_content = thinking
+            thinking_title = "**Thinking Process Preview:**"
         
-        markdown.append(f"**Thinking Process Preview:**")
-        markdown.append("```")
-        markdown.append(thinking_preview)
-        markdown.append("```")
+        markdown.append(thinking_title)
+        markdown.append("")
+        # Format as quote block for better wrapping
+        thinking_lines = thinking_content.split('\n')
+        for line in thinking_lines:
+            if line.strip():
+                markdown.append(f"> {line}")
+            else:
+                markdown.append(">")
         markdown.append("")
         
-        # Show first 300 characters of response
+        # Show response - full text if complete mode, preview if summary
         response = level_data['response']
-        if len(response) > 300:
-            response_preview = response[:297] + "..."
+        if complete:
+            response_content = response
+            response_title = "**Complete Response:**"
         else:
-            response_preview = response
+            if len(response) > 300:
+                response_content = response[:297] + "..."
+            else:
+                response_content = response
+            response_title = "**Response Preview:**"
         
-        markdown.append(f"**Response Preview:**")
-        markdown.append("```")
-        markdown.append(response_preview)
-        markdown.append("```")
+        markdown.append(response_title)
+        markdown.append("")
+        # Format as quote block for better wrapping
+        response_lines = response_content.split('\n')
+        for line in response_lines:
+            if line.strip():
+                markdown.append(f"> {line}")
+            else:
+                markdown.append(">")
         markdown.append("")
         markdown.append("---")
         markdown.append("")
@@ -177,20 +202,25 @@ def main():
     default_json = script_dir / "data" / "consciousness_experiment_consciousness_exp_20250729_093807.json"
     
     # Parse arguments
-    if len(sys.argv) == 1:
+    complete_mode = False
+    args = [arg for arg in sys.argv[1:] if arg != '--complete']
+    if '--complete' in sys.argv[1:]:
+        complete_mode = True
+    
+    if len(args) == 0:
         # No arguments - use default file and print to stdout
         json_file = default_json
         output_file = None
-    elif len(sys.argv) == 2:
+    elif len(args) == 1:
         # One argument - input file, print to stdout
-        json_file = Path(sys.argv[1])
+        json_file = Path(args[0])
         output_file = None
-    elif len(sys.argv) == 3:
+    elif len(args) == 2:
         # Two arguments - input and output files
-        json_file = Path(sys.argv[1])
-        output_file = Path(sys.argv[2])
+        json_file = Path(args[0])
+        output_file = Path(args[1])
     else:
-        print("Usage: python format_experiment_output.py [json_file] [output_file]")
+        print("Usage: python format_experiment_output.py [--complete] [json_file] [output_file]")
         sys.exit(1)
     
     # Check input file exists
@@ -199,7 +229,7 @@ def main():
         sys.exit(1)
     
     # Format the experiment
-    success = format_experiment_to_markdown(json_file, output_file)
+    success = format_experiment_to_markdown(json_file, output_file, complete_mode)
     
     if not success:
         sys.exit(1)
